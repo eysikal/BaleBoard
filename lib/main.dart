@@ -45,35 +45,38 @@ class _BaleBoardHomePageState extends State<BaleBoardHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image.asset(
-              'assets/impressive.gif',
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final player = AudioPlayer(playerId: 'test');
-                await player.play(
-                  AssetSource('think.mp3'),
-                );
-                // player.play(source)
-              },
-              child: Text('think'.toUpperCase()),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                final player = AudioPlayer(playerId: 'test');
-                await player.play(
-                  AssetSource('idear.mp3'),
-                );
-                // player.play(source)
-              },
-              child: Text('idear'.toUpperCase()),
-            ),
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          Image.asset(
+            'assets/impressive.gif',
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  // TODO: Use "soundpool" package instead?
+                  final player = AudioPlayer(playerId: 'test');
+                  await player.play(
+                    AssetSource('think.mp3'),
+                  );
+                  // player.play(source)
+                },
+                child: Text('think'.toUpperCase()),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final player = AudioPlayer(playerId: 'test');
+                  await player.play(
+                    AssetSource('idear.mp3'),
+                  );
+                  // player.play(source)
+                },
+                child: Text('idear'.toUpperCase()),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

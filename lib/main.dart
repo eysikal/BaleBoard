@@ -23,60 +23,65 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
-      home: const BaleBoardHomePage(title: 'Bale Board'),
+      home: BaleBoardMainScreen(),
     );
   }
 }
 
-class BaleBoardHomePage extends StatefulWidget {
-  final String title;
-  const BaleBoardHomePage({super.key, required this.title});
+class BaleBoardMainScreen extends StatefulWidget {
+  // TODO: Use "soundpool" package instead?
+  final audioPlayer = AudioPlayer(playerId: 'balePlayer');
+
+  BaleBoardMainScreen({super.key});
 
   @override
-  State<BaleBoardHomePage> createState() => _BaleBoardHomePageState();
+  State<BaleBoardMainScreen> createState() => _BaleBoardMainScreenState();
 }
 
-class _BaleBoardHomePageState extends State<BaleBoardHomePage> {
+class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Bale Board'),
       ),
-      body: Column(
-        children: <Widget>[
-          Image.asset(
-            'assets/impressive.gif',
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () async {
-                  // TODO: Use "soundpool" package instead?
-                  final player = AudioPlayer(playerId: 'test');
-                  await player.play(
-                    AssetSource('think.mp3'),
-                  );
-                  // player.play(source)
-                },
-                child: Text('think'.toUpperCase()),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  final player = AudioPlayer(playerId: 'test');
-                  await player.play(
-                    AssetSource('idear.mp3'),
-                  );
-                  // player.play(source)
-                },
-                child: Text('idear'.toUpperCase()),
-              ),
-            ],
-          ),
-        ],
+      body: Container(
+        color: Colors.black,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Image.asset(
+              'assets/impressive.gif',
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    widget.audioPlayer.play(
+                      AssetSource('think.mp3'),
+                    );
+                  },
+                  child: Text('think'.toUpperCase()),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    widget.audioPlayer.play(
+                      AssetSource('idear.mp3'),
+                    );
+                  },
+                  child: Text('idear'.toUpperCase()),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

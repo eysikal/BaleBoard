@@ -41,6 +41,17 @@ class BaleBoardMainScreen extends StatefulWidget {
 }
 
 class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
+  Widget _baleButton(String name) {
+    return ElevatedButton(
+      onPressed: () {
+        widget.audioPlayer.play(
+          AssetSource('clips/$name.mp3'),
+        );
+      },
+      child: Text(name.toUpperCase()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +64,7 @@ class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Image.asset(
-              'assets/impressive.gif',
+              'assets/images/impressive.gif',
               fit: BoxFit.cover,
             ),
             const SizedBox(
@@ -62,22 +73,20 @@ class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    widget.audioPlayer.play(
-                      AssetSource('think.mp3'),
-                    );
-                  },
-                  child: Text('think'.toUpperCase()),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.audioPlayer.play(
-                      AssetSource('idear.mp3'),
-                    );
-                  },
-                  child: Text('idear'.toUpperCase()),
-                ),
+                _baleButton('idear'),
+                _baleButton('professional'),
+                _baleButton('think'),
+              ],
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _baleButton('idear'),
+                _baleButton('professional'),
+                _baleButton('think'),
               ],
             ),
           ],

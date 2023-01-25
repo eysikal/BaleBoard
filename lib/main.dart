@@ -84,9 +84,20 @@ class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _baleButton('idear'),
-                _baleButton('professional'),
-                _baleButton('think'),
+                _baleButton('answer'),
+                _baleButton('get'),
+                _baleButton('good'),
+              ],
+            ),
+            const SizedBox(
+              height: 18,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _baleButton('amateur'),
+                _baleButton('set'),
+                _baleButton('he'),
               ],
             ),
           ],

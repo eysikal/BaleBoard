@@ -46,6 +46,8 @@ class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
       onPressed: () {
         widget.audioPlayer.play(
           AssetSource('clips/$name.mp3'),
+          mode: PlayerMode.lowLatency,
+          ctx: AudioContextConfig(forceSpeaker: true).build(),
         );
       },
       child: Text(name.toUpperCase()),

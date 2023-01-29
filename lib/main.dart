@@ -1,5 +1,6 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:soundpool/soundpool.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,15 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.amber,
       ),
       home: BaleBoardMainScreen(),
@@ -31,24 +23,48 @@ class MyApp extends StatelessWidget {
 }
 
 class BaleBoardMainScreen extends StatefulWidget {
-  // TODO: Use "soundpool" package instead?
-  final audioPlayer = AudioPlayer(playerId: 'balePlayer');
+  late final Soundpool _soundPool;
+  final _soundClipstoSoundIds = {
+    'amateur': 0,
+    'answer': 0,
+    'bale': 0,
+    'get': 0,
+    'good': 0,
+    'he': 0,
+    'idear': 0,
+    'professional': 0,
+    'set': 0,
+    'think': 0,
+  };
 
-  BaleBoardMainScreen({super.key});
+  BaleBoardMainScreen({super.key}) {
+    _init();
+  }
 
   @override
   State<BaleBoardMainScreen> createState() => _BaleBoardMainScreenState();
+  void _init() async {
+    _soundPool = Soundpool.fromOptions(
+      options: const SoundpoolOptions(streamType: StreamType.music),
+    );
+
+    _soundClipstoSoundIds.forEach((clipTitle, soundId) async {
+      final soundId = await rootBundle
+          .load('assets/clips/$clipTitle.mp3')
+          .then((ByteData soundData) => _soundPool.load(soundData));
+      _soundClipstoSoundIds[clipTitle] = soundId;
+    });
+  }
 }
 
 class _BaleBoardMainScreenState extends State<BaleBoardMainScreen> {
   Widget _baleButton(String name) {
     return ElevatedButton(
       onPressed: () {
-        widget.audioPlayer.play(
-          AssetSource('clips/$name.mp3'),
-          mode: PlayerMode.lowLatency,
-          ctx: AudioContextConfig(forceSpeaker: true).build(),
-        );
+        final soundId = widget._soundClipstoSoundIds[name];
+        if (soundId != null) {
+          widget._soundPool.play(soundId);
+        }
       },
       child: Text(name.toUpperCase()),
     );
